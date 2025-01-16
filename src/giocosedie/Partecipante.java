@@ -13,6 +13,7 @@ class Partecipante extends Thread
 
 {
 	Posto sedie[];
+        TestGiocoSedie testGiocoSedie;
 
 	public Partecipante(Posto sedie[]) {
 
@@ -25,11 +26,16 @@ class Partecipante extends Thread
 		try {
 			sleep((int) (Math.random() * 1000));
 
+                        testGiocoSedie= new TestGiocoSedie();
+                        testGiocoSedie.scrivi("", false);
+
 			for (int i = 0; i < sedie.length; i++) {
 				if (sedie[i].occupa()) {
-					System.out.println("Sono il Thread " + this.getName()
-							+ ". Sono riuscito a sedermi sul posto " + i);
-					return;
+                                    String messaggio= "Sono il Thread " + this.getName()
+							+ ". Sono riuscito a sedermi sul posto " + i;
+                                    System.out.println(messaggio);
+                                    testGiocoSedie.scrivi(messaggio, true);
+                                    return;
 				}
 			}
 			System.out.println("Sono il Thread " + this.getName()

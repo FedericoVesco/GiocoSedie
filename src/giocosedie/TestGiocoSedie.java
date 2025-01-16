@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 public class TestGiocoSedie {
     private final static int NUMSEDIE = 15;
     private static Logger logger = Logger.getLogger("GiocoSedie.TestGiocoSedie");
-    String nomeFile;
+    String nomeFile= "Veschini_file.txt";
     
     /**
      * @param args the command line arguments
@@ -43,7 +43,7 @@ public class TestGiocoSedie {
                 }
 	}
 
-	public void scrivi(){
+    public void scrivi(){
         BufferedWriter br=null;
         
         try {
@@ -71,4 +71,33 @@ public class TestGiocoSedie {
                 
         }
     }
+    
+    public void scrivi(String messaggio, boolean append){
+        BufferedWriter br=null;
+        
+        try {
+            //1) apro il file
+            br = new BufferedWriter(
+                    new FileWriter(nomeFile,append));
+            //2) scrivo nel buffer
+            br.write(messaggio);
+            br.write("\n\r");
+            //3) svuoto il buffer e salvo nel file i dati
+            br.flush();         
+        } catch (IOException ex) {
+            //Logger.getLogger(Scrittore.class.getName()).log(Level.SEVERE, null, ex);
+		System.err.println(ex.getMessage());
+        }
+        finally{
+            if (br!=null)
+                try {
+                    //4)chiudo lo stream in uscita
+                    br.close();
+            } catch (IOException ex) {
+                //Logger.getLogger(Scrittore.class.getName()).log(Level.SEVERE, null, ex);
+			System.err.println(ex.getMessage());
+            }
+                
+        }
     }
+}
