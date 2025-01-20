@@ -24,23 +24,33 @@ public class TestGiocoSedie {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Posto sedie[] = new Posto[NUMSEDIE];
+        Scanner scanner = new Scanner(System.in);
 
-	for (int k = 0; k < sedie.length; k++)
-		sedie[k] = new Posto();
+        System.out.print("Inserisci il numero di partecipanti: ");
+        int numPartecipanti = scanner.nextInt();
 
-	Display display = new Display(sedie);
-	//System.out.println("Sto facendo partire il Display.");
-        logger.info("Sto facendo partire il Display.\n");
-	display.start();
+        // Determina il numero di sedie: sempre una in meno rispetto ai partecipanti
+        int numSedie = numPartecipanti - 1;
+        Posto[] sedie = new Posto[numSedie];
 
-	Partecipante array[] = new Partecipante[NUMSEDIE+1];
-	for (int i = 0; i < NUMSEDIE + 1; i++) {
-		array[i] = new Partecipante(sedie);
-                //System.out.println("Sto facendo partire il thread n." + array[i].getId());
-                logger.info("Sto facendo partire il thread id: " + array[i].getId()+" name: "+array[i].getName()+"\n");
-                array[i].start();
-                }
+        // Inizializzazione delle sedie
+        for (int k = 0; k < sedie.length; k++) {
+            sedie[k] = new Posto();
+        }
+
+        Display display = new Display(sedie);
+        logger.info("Sto facendo partire il Display.");
+        display.start();
+
+        Partecipante[] partecipanti = new Partecipante[numPartecipanti];
+
+        for (int i = 0; i < numPartecipanti; i++) {
+            partecipanti[i] = new Partecipante(sedie);
+            logger.info("Sto facendo partire il thread id: " + partecipanti[i].getId() + " name: " + partecipanti[i].getName());
+            partecipanti[i].start();
+        }
+
+        scanner.close();
 	}
 
     public void scrivi(){
